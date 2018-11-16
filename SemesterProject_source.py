@@ -20,4 +20,60 @@
 #
 # ----------------------------------------------------------------------------
 
-#commit
+from tkinter import *
+from tkinter.ttk import Frame, Button, Style
+
+
+class Example(Frame):
+    def __init__(master):
+        super().__init__()
+
+        master.initUI()
+
+    def initUI(master):
+
+        master.master.title("MILTON")
+
+        master.style = Style()
+        master.style.theme_use("default")
+
+
+
+
+
+
+
+
+        frame = Frame(master, relief = RAISED, borderwidth=1)
+        frame.pack(fill=BOTH, expand=True)
+
+        master.pack(fill=BOTH, expand=1)
+
+
+        quitButton = Button(master, text="Quit", command=master.quit)
+        quitButton.pack(side=RIGHT, padx=5, pady=5)
+        runButton = Button(master, text="Run")  # add "command=execute"
+        runButton.pack(side=RIGHT)
+
+
+
+
+
+
+
+
+def main():
+    root = Tk()
+    root.geometry("700x600+300+300")
+
+
+
+
+
+
+    app = Example()
+    root.mainloop()
+
+if __name__=='__main__':
+    main()
+
