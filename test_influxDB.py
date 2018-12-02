@@ -6,10 +6,9 @@
 
 import pandas as pd
 from influxdb import InfluxDBClient
-from progressbar import Percentage, RotatingMarker, ETA,FileTransferSpeed, ProgressBar, Bar
 
-widgets = ['Test: ', Percentage(), ' ', Bar(marker=RotatingMarker()),
-           ' ', ETA(), ' ', FileTransferSpeed()]
+
+
 
 
 

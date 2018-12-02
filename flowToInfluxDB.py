@@ -44,7 +44,7 @@ client.switch_database('LLC_FlowData')
 
 print('\nconnection established, uploading to influxdb...')
 
-client.write_points(csvReader, 'flow', {'buildingID':bldg, 'source':source}, batch_size=100, protocol='line')
+client.write_points(csvReader, 'flow', {'buildingID':bldg, 'source':source}, batch_size=2000, protocol='line')
 
 print('\n\nDONE!')
 
