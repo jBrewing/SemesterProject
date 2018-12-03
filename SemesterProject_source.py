@@ -32,7 +32,7 @@ print('Receiving inputs...')
 #       Dates - Do not remove 'T' or 'Z' - required influxDB syntax.
 #       bldgID - Do not remove " " or ' ' - required influxDB syntax
 beginDate = "'2018-10-10T05:00:00Z'"
-endDate = "'2018-10-20T17:00:00Z'"
+endDate = "'2018-10-10T17:00:00Z'"
 bldgID = "'F'"
 
 
@@ -82,7 +82,7 @@ print('Resampling data...')
 #                Weekly, #W,
 #                Hourly, #H,
 #                Minute, #T.
-resampleRule = '1H'
+resampleRule = '15T'
 
 hotFinalAvg = hot_Df.resample(rule=resampleRule, base=0).mean()
 #hotFinalMax = hot_Df.resample(rule=resampleRule, base=0).max()
@@ -103,7 +103,7 @@ gridsize=(3,2)
 fig=plt.figure(figsize=(12,8))
 fig.autofmt_xdate()
 fig.suptitle('Water Use Data Vis/Analysis for Building: '+bldgID+' FOR: '+beginDate+'-'+endDate, fontsize=14, weight='bold')
-plt.tight_layout(pad=5, w_pad=2, h_pad=2.5)
+
 
 
 # 1st row - raw data
@@ -159,35 +159,37 @@ axCold2.grid(True)
 
 # 3rd row - Resampled volume
 axHot3 = plt.subplot2grid(gridsize, (2,0))
-plt.xticks(fontsize=8, rotation=35)
-axHot3.plot(hotFinalSum, color = 'red')
-axHot3.set_title('Total resampled hot water volume', fontsize=10, weight='bold')
-axHot3.set_ylabel('Gallons')
-axHot3.set_xlim(beginDate, endDate)
-axHot3.grid(True)
-#dataHot = hotFinalAvg['flowrate']
-#binwidthHot = (dataHot.max()-dataHot.min())/15
-#axHot3.hist(dataHot, bins=np.arange(min(dataHot), max(dataHot), binwidthHot), color='red')
-#axHot3.set_xlabel('Gallons per Minute')
-#axHot3.set_ylabel('Freq.')
-#axHot3.set_title('Resampled GPM distribution', fontsize=10, weight='bold')
+#plt.xticks(fontsize=8, rotation=35)
+#axHot3.plot(hotFinalSum, color = 'red')
+#axHot3.set_title('Total resampled hot water volume', fontsize=10, weight='bold')
+#axHot3.set_ylabel('Gallons')
+#axHot3.set_xlim(beginDate, endDate)
+#axHot3.grid(True)
+plt.xticks(fontsize=8)
+dataHot = hotFinalAvg['flowrate']
+binwidthHot = (dataHot.max()-dataHot.min())/15
+axHot3.hist(dataHot, bins=np.arange(min(dataHot), max(dataHot), binwidthHot), color='red')
+axHot3.set_xlabel('Gallons per Minute')
+axHot3.set_ylabel('Freq.')
+axHot3.set_title('Resampled GPM distribution', fontsize=10, weight='bold')
 
 
 axCold3 = plt.subplot2grid(gridsize, (2,1))
-plt.xticks(fontsize=8, rotation=35)
-axCold3.plot(coldFinalSum, color='blue')
-axCold3.set_title('Total resampled hot water volume', fontsize=10, weight='bold')
-axCold3.set_ylabel('Gallons')
-axCold3.set_xlim(beginDate, endDate)
-axCold3.grid(True)
-#dataCold = coldFinal['flowrate']
-#binwidthCold = (dataCold.max()-dataCold.min())/15
-#axCold3.hist(dataCold, bins=np.arange(min(dataCold), max(dataHot), binwidthCold), color='blue')
-#axCold3.set_xlabel('Gallons per Minute')
-#axCold3.set_ylabel('Freq.')
-#axCold3.set_title('Resampled GPM distribution', fontsize=10, weight='bold')
+#plt.xticks(fontsize=8, rotation=35)
+#axCold3.plot(coldFinalSum, color='blue')
+#axCold3.set_title('Total resampled hot water volume', fontsize=10, weight='bold')
+#axCold3.set_ylabel('Gallons')
+#axCold3.set_xlim(beginDate, endDate)
+#axCold3.grid(True)
+plt.xticks(fontsize=8)
+dataCold = coldFinal['flowrate']
+binwidthCold = (dataCold.max()-dataCold.min())/15
+axCold3.hist(dataCold, bins=np.arange(min(dataCold), max(dataHot), binwidthCold), color='blue')
+axCold3.set_xlabel('Gallons per Minute')
+axCold3.set_ylabel('Freq.')
+axCold3.set_title('Resampled GPM distribution', fontsize=10, weight='bold')
 
-
+plt.tight_layout(pad=5, w_pad=2, h_pad=2.5)
 
 plt.show()
 
