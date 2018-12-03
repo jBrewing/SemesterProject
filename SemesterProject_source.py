@@ -14,18 +14,17 @@
 # Based on input, it queries an InfluxDB database, where
 # water consumption data is stored.  Based on user input,
 # the script performs a variety of tasks, including:
-#   - comparison of water-related energy use between buildings
-#   - outputs a variety of visualizations for water-related energy use
-#   - performs some basic statistical analysis on water-related energy use.
+#   - visualizing raw hot water and cold water use data
+#   - resamples data to the desired resolution
+#   - calculates period volume based on resampled data
 #
 # ----------------------------------------------------------------------------
 
 import pandas as pd
 from influxdb import InfluxDBClient
 import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
 import numpy as np
-#from SemesterWork import Resample
+
 
 print('Receiving inputs...')
 # Input parameters.
@@ -56,9 +55,9 @@ query = """SELECT "flowrate", "source" FROM "flow" WHERE "buildingID" ="""+bldgI
 
 print('Retrieving data...')
 # Convert returned ResultSet to Pandas dataframe with list
-# and get_points. Set dataframe index as datetime.
+# and get_points.
+# Set dataframe index as datetime.
 main = client.query(query)
-
 main_Ls = list(main.get_points(measurement='flow'))
 main_Df = pd.DataFrame(main_Ls)
 main_Df.sort_values(by=['source'], inplace=True)
